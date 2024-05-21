@@ -23,12 +23,12 @@
                     <li>En cada ronda, tus trabajadores venderán una cantidad aleatoria de vasos de Slurm</li>
                     <li>En algunas rondas podrás incorporar trabajadores (por un precio), y esto te ayudará a vender una mayor cantidad de Slurm</li>
                 </ul>
-                <p>¿Cómo ganar? Una vez finalizadas las 5 rondas, a tu ganancia le descontamos los $500.000 del barril y vemos cuántos has vendido</p>            
+                <p>¿Cómo ganar? Una vez finalizadas las 5 rondas, a tu ganancia le descontamos los $500.000 del barril y vemos cuántos has vendido</p>
             </div>
             <section id="datos" class="container-fluid">  
                 <div class="row datos-row">
                     <div class="col-sm-6 datos-textos">
-                        <h3>Datos del Jugador</h3>
+                        <h3>Venta de Slurm!</h3>
                         <label>Ingresa tu nombre <input type="text" id="nombreJugador"></label>
                         <button id="guardarNombreJugador">Guardar</button>  
                     </div>
@@ -39,12 +39,70 @@
                     </div> 
                 </div>
                 <div class="row">
-                    <div class="col-sm-12"></div>
-                    <div class="col-sm-12"></div>
-                    <div class="col-sm-12"></div>
+                    <div class="col-sm-12 datosJugador">
+                        <p>Ronda</p>
+                        <p>Caja registradora</p>
+                        <p>Slurm Vendida</p>
+                        <p>Deuda Inversión</p>
+                    </div>
+                </div>
+                <div class="container botonesPrincipales">
+                    <button id="iniciarJuego"><i class="icono"><img src="./media/futurama-slurms-mackenzie-pack (3).png"></i>Iniciar Juego</button> 
+                    <button id="finalizarJuego"><i class="icono"><img src="./media/arma.png"></i>Finalizar Juego</button>
                 </div> 
             </section>
-            <section id="interfaz" class="container-fluid"></section>
+            <section id="interfaz" class="container">
+                    <div class="ronda row">
+                        <div class="col-sm-6">
+                            <p>RONDA: 1</p>
+                            <p>Caja Registradora: $50000</p>
+                            <p>Slurm Vendida: $50000</p>
+                            <p>Deuda Inversión: $50000</p>
+                            <div class="container botonesSecundarios">
+                                <button id="comprar"><i class="icono"><img src="./media/finanzas.png"></i>Comprar Trabajador</button> 
+                                <button id="vender"><i class="icono"><img src="./media/cajero-automatico.png"></i>Vender Slurm</button>
+                            </div> 
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-center">TRABAJADORES ADQUIRIDOS</p>
+                            <div class="cardAdquiridos">
+                                <img src="./media/farnsworth-and-planet-express-ship-pack (1).png">
+                                <p>Slurm Vendida: 0</p>
+                                <p>Dinero por venta: $1000</p>
+                            </div>
+                            <div class="cardAdquiridos">
+                                <img src="./media/farnsworth-and-planet-express-ship-pack (1).png">
+                                <p>Slurm Vendida: 0</p>
+                                <p>Dinero por venta: $1000</p>
+                            </div>
+                            <div class="cardAdquiridos">
+                                <img src="./media/farnsworth-and-planet-express-ship-pack (1).png">
+                                <p>Slurm Vendida: 0</p>
+                                <p>Dinero por venta: $1000</p>
+                            </div>
+                            <div class="cardAdquiridos">
+                                <img src="./media/farnsworth-and-planet-express-ship-pack (1).png">
+                                <p>Slurm Vendida: 0</p>
+                                <p>Dinero por venta: $1000</p>
+                            </div>
+                            <div class="cardAdquiridos">
+                                <img src="./media/farnsworth-and-planet-express-ship-pack (1).png">
+                                <p>Slurm Vendida: 0</p>
+                                <p>Dinero por venta: $1000</p>
+                            </div>
+                            <div class="cardAdquiridos">
+                                <img src="./media/farnsworth-and-planet-express-ship-pack (1).png">
+                                <p>Slurm Vendida: 0</p>
+                                <p>Dinero por venta: $1000</p>
+                            </div>
+                            <div class="cardAdquiridos">
+                                <img src="./media/farnsworth-and-planet-express-ship-pack (1).png">
+                                <p>Slurm Vendida: 0</p>
+                                <p>Dinero por venta: $1000</p>
+                            </div>
+                        </div>
+                    </div>
+            </section>
             <h3 class="text-center titulo-trabajadores">Estos son los trabajadores disponibles</h3>
             <div class="trabajadores container" id="trabajadores"></div>
         </div>

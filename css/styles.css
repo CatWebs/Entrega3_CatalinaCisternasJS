@@ -21,6 +21,7 @@ h1{
     background-size: contain;
     
 }
+
 .juego{
     margin-bottom: 30px;
 }
@@ -64,7 +65,7 @@ h1{
 }
 
 .datos-img img{
-    max-height: 200px;
+    max-height: 150px;
     border-radius: 10%;
     box-shadow: 0 0 12px rgb(137, 253, 4);
 }
@@ -79,15 +80,72 @@ h1{
     display: flex;
     justify-content: space-around;
     padding: 30px 0;
+    border: 2px solid orange;
+    border-radius: 15px;
 }
 
-.boton-comprar, .boton-vender{
-    background-color: rgb(192, 122, 186);
-    border: .5px solid #000;
-    margin-top: 10px;
-    width: 40%;
-    height: 40px;
-    font-weight: bolder;
+.botonesPrincipales{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 30px 20px;
+}
+
+#iniciarJuego{
+    background-color: #d1f596;
+}
+
+#finalizarJuego{
+    background-color: #f5a496;
+}
+
+.botonesSecundarios{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 30px 20px;
+}
+
+#comprar{
+    background-color: #f5a496;
+}
+
+#vender{
+    background-color: #d1f596;
+}
+
+.icono{
+    margin-right: 10px;
+}
+
+.icono img{
+    max-height: 70px;
+    width: auto;
+}
+
+.ronda{
+    width: 100%;
+}
+
+.cardAdquiridos img{
+    height: 50px;
+    width: auto;
+    padding: 5px 15px;
+}
+
+.cardAdquiridos p{
+    margin: 0 auto;
+}
+
+.cardAdquiridos{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 1px solid grey;
+}
+
+button:hover{
+    box-shadow: 0 0 12px rgb(137, 253, 4);
 }
 
 /*      SECCIÓN DE TRABAJADORES     */

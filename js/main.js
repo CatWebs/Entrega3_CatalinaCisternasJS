@@ -69,7 +69,6 @@ function guardarNombre () {
     } else {
         nombreJugador.value = nombreJugador.value;
     }
-    console.log(nombreJugador.value);
 };
 
 //  MOSTRANDO TRABAJADORES EN EL HTML
@@ -124,16 +123,12 @@ trabajadoresDisponibles.forEach(el => {
 
 const interfazHTML = document.getElementById("interfaz");
 
-const comprar = document.createElement("button");
-comprar.innerText = "COMPRAR TRABAJADOR";
-comprar.className = "btn boton-comprar";
+const comprar = document.getElementById("comprar");
+//comprar.innerText = "COMPRAR TRABAJADOR";
 
-const vender = document.createElement("button");
-vender.innerText = "VENDER SLURM";
-vender.className = "btn boton-vender";
+const vender = document.getElementById("vender");
+//vender.innerText = "VENDER SLURM";
 
-interfazHTML.appendChild(comprar);
-interfazHTML.appendChild(vender);
 
 
 
