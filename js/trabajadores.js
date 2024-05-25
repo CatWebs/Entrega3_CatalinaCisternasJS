@@ -20,7 +20,7 @@ const trabajadoresDisponibles = [
         porcentaje: "1%",
         cantidadRonda: 0,
         ventaRonda: 0,
-        disponible: false,
+        disponible: true,
         imagen: "./media/Farnsworth.webp"
     },
     {

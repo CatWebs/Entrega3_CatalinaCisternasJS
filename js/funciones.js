@@ -1,4 +1,4 @@
-function mostrarTrabajadores() {
+/*function mostrarTrabajadores() {
     for (const iterator of trabajadoresDisponibles) {
         const nombre = iterator.nombre;
         const precio = iterator.precio;
@@ -12,6 +12,53 @@ function mostrarTrabajadores() {
     frasePresentacion = arrayPresentar.join("\n");
     fraseListadoPorId = arrayFraseListado.join("\n");
 };
+*/
+function mostrarTrabajadores() {
+    trabajadoresContainer.innerHTML = "";
+    trabajadoresDisponibles.forEach(el => {
+        const card = document.createElement("div");
+        card.className = "card trabajador";
+        card.className += ` trabajador${el.id}`;
+    
+        const titulo = document.createElement("p");
+        titulo.className = "card-title";
+        titulo.innerText = `Trabajador ${el.id}`;
+        titulo.className += ` titulo${el.id}`;
+    
+        const nombres = document.createElement("p");
+        nombres.className = "nombre card-subtitle";
+        nombres.innerText = el.nombre;
+    
+        const precio = document.createElement("p");
+        precio.innerText = `Precio: $${el.precio}`;
+    
+        const bonus = document.createElement("p");
+        bonus.innerText = `Bonus: ${el.porcentaje}`;
+    
+        const imagen = document.createElement("img");
+        imagen.src = el.imagen;
+        imagen.alt = `imagen de ${el.nombre}`;
+        imagen.className = "card-img-bottom";
+    
+        const comprar = document.createElement("button");
+        comprar.innerText = "Comprar";
+    
+        if(!el.disponible){
+            comprar.className = "btn no-disponible";
+            comprar.innerText = "Ya lo tienes";
+        }else{
+            comprar.className = "btn comprar-boton";
+        }
+    
+        card.appendChild(titulo);
+        card.appendChild(nombres);
+        card.appendChild(precio);
+        card.appendChild(bonus);
+        card.appendChild(imagen);
+        card.appendChild(comprar);
+        trabajadoresContainer.appendChild(card);
+    })
+}
 
 const agregandoTrabajador = (u) => {
     trabajadoresAdquiridos.push(trabajadoresDisponibles[u]);

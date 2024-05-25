@@ -20,40 +20,7 @@ Ya no usamos alert(), confirm() ni prompt(). Ahora modificamos el DOM para las s
 y capturamos los eventos del usuario sobre inputs y botones para las entradas.
 
 _________________________________________________________________________________
-Cada etiqueta será llamada nodo.
-
-const body = document.body;
-console.log(body);
-
-.innerText = modificacion de texto
-document.getElementById("el id");
-document.getElementByClassName("el nombre de la clase");
-
-cuando varios elementos tienen la misma clase, puedo acceder a ellos como si fueran arrays
-let claseee = document.getElementByClassName("clase");
-claseee[0].algo;
 */
-
-// Declaración de variables iniciales
-
-/*let rondas = 1;
-let frasePresentacion; 
-const arrayPresentar = [];
-let fraseListadoPorId;
-const arrayFraseListado = [];
-let nombreJugador
-let eleccion;
-const datosJugador = {
-    cajaRegistradora: 3000,
-    slurmVendida: 0,
-    deudaInversion: 500000
-};
-let ventaTotal;
-;
-let iniciar;
-let eleccionRonda;
-*/
-
 
 
 //  CONOCIENDO AL JUGADOR
@@ -71,91 +38,16 @@ function guardarNombre () {
     }
 };
 
-//  MOSTRANDO TRABAJADORES EN EL HTML
-
+//  MOSTRANDO TRABAJADORES EN EL HTML HACIENDO CLICK EN "COMPRAR TRABAJADOR"
 const trabajadoresContainer = document.getElementById("trabajadores");
+const comprar = document.getElementById("comprar");
+comprar.addEventListener("click", mostrarTrabajadores);
 
-trabajadoresDisponibles.forEach(el => {
-    const card = document.createElement("div");
-    card.className = "card trabajador";
-    card.className += ` trabajador${el.id}`;
-
-    const titulo = document.createElement("p");
-    titulo.className = "card-title";
-    titulo.innerText = `Trabajador ${el.id}`;
-    titulo.className += ` titulo${el.id}`;
-
-    const nombres = document.createElement("p");
-    nombres.className = "nombre card-subtitle";
-    nombres.innerText = el.nombre;
-
-    const precio = document.createElement("p");
-    precio.innerText = `Precio: $${el.precio}`;
-
-    const bonus = document.createElement("p");
-    bonus.innerText = `Bonus: ${el.porcentaje}`;
-
-    const imagen = document.createElement("img");
-    imagen.src = el.imagen;
-    imagen.alt = `imagen de ${el.nombre}`;
-    imagen.className = "card-img-bottom";
-
-    const comprar = document.createElement("button");
-    comprar.innerText = "Comprar";
-
-    if(!el.disponible){
-        comprar.className = "btn no-disponible";
-        comprar.innerText = "Ya lo tienes";
-    }else{
-        comprar.className = "btn comprar-boton";
-    }
-
-    card.appendChild(titulo);
-    card.appendChild(nombres);
-    card.appendChild(precio);
-    card.appendChild(bonus);
-    card.appendChild(imagen);
-    card.appendChild(comprar);
-    trabajadoresContainer.appendChild(card);
-})
 
 //  DISEÑANDO Y CREANDO FUNCIONALIDAD EN ÁREA DE INTERFAZ
 
 const interfazHTML = document.getElementById("interfaz");
-
-const comprar = document.getElementById("comprar");
-//comprar.innerText = "COMPRAR TRABAJADOR";
-
-const vender = document.getElementById("vender");
-//vender.innerText = "VENDER SLURM";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const comprarTrabajador = document.getElementsByClassName("comprar-boton");
 
 
 
