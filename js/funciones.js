@@ -1,39 +1,73 @@
-/*function mostrarTrabajadores() {
-    for (const iterator of trabajadoresDisponibles) {
-        const nombre = iterator.nombre;
-        const precio = iterator.precio;
-        const id = iterator.id;
-        const porcentaje = iterator.porcentaje;
-        let frasePresentar = ("Trabajador N°"+id+"\nSu nombre es "+nombre+", tiene un valor de $"+precio+ " y un incremento de producción del "+porcentaje);
-        arrayPresentar.push(frasePresentar);
-        let fraseListado = `${id}. ${nombre}`;
-        arrayFraseListado.push(fraseListado);
-    };
-    frasePresentacion = arrayPresentar.join("\n");
-    fraseListadoPorId = arrayFraseListado.join("\n");
+//  VARIABLES PRINCIPALES
+let trabajadoresAdquiridos;
+if(localStorage.getItem("trabajadoresAdquiridos")){
+    trabajadoresAdquiridos = JSON.parse(localStorage.getItem("trabajadoresAdquiridos"));
+}else{
+    trabajadoresAdquiridos = [];
+}
+
+const datosJugador = {
+    cajaRegistradora: 3000,
+    slurmVendida: 0,
+    deudaInversion: 500000
 };
-*/
+
+const ventaRonda = {
+    ventaTotalRonda: 0,
+    slurmTotalRonda: 0,
+}
+
+let ronda = 1;
+let compraExitosa = false;
+
+// Actualizo los datos iniciales del jugador
+function generarInterfaz(){
+    //  Datos del Jugador
+    const container = document.getElementById("datosJugador");
+    container.innerHTML = "";
+
+    const rondaP = document.createElement("p");
+    rondaP.innerText = `Ronda Actual N°: ${ronda}`;
+    const slurm = document.createElement("p");
+    slurm.innerText = `Slurm Vendida: ${datosJugador.slurmVendida} unidades`;
+    const dinero = document.createElement("p");
+    dinero.innerText = `Caja Registradora: $${datosJugador.cajaRegistradora}`;
+    const deuda = document.createElement("p");
+    deuda.innerText = `Deuda Inversión: $${datosJugador.deudaInversion}`;
+    container.appendChild(rondaP);
+    container.appendChild(slurm);
+    container.appendChild(dinero);
+    container.appendChild(deuda);
+
+    //  Interfaz
+    const interfaz = document.getElementById("interfaz");
+    interfaz.className = "container";
+    // En la interfaz lo que hago es quitarle la clase que trae por defecto : "ocultarInterfaz". Así ahora puedo verla.
+}
 
 // En esta función creo la mini card que muestra a los trabajadores adquiridos (con los que puedo jugar)
 function crearCardAdquirido(trabajador){
     const container = document.getElementById("misTrabajadores");
     const card = document.createElement("div");
     card.className = "cardAdquiridos";
-    card.id = "cardAdquirido";
     
     const imagen = document.createElement("img");
     const srcComponente = trabajador + 1;
     imagen.src = `./media/${srcComponente}.png`;
 
     const slurm = document.createElement("p");
+    slurm.className = `slurm${srcComponente}`;
     slurm.innerText = "Slurm Vendida: ";
     
     const dinero = document.createElement("p");
+    dinero.className = `dinero${srcComponente}`;
     dinero.innerText = "Dinero generado esta ronda: ";
 
     card.appendChild(imagen);
     card.appendChild(slurm);
     card.appendChild(dinero);
+    
+    
     container.appendChild(card);
 
 };
@@ -41,15 +75,28 @@ function crearCardAdquirido(trabajador){
 // En esta función pusheo el nuevo trabajador y de paso le creo una card (La de la línea 26)
 function agregandoTrabajador(id) { 
     trabajadoresAdquiridos.push(trabajadoresDisponibles[id]);
-    console.log(trabajadoresAdquiridos);
+    localStorage.setItem("trabajadoresAdquiridos", JSON.stringify(trabajadoresAdquiridos));
     crearCardAdquirido(id);
+    trabajadoresContainer.innerHTML = "";
     let titulo = document.getElementById("tituloMisTrabajadores");
     titulo.innerText = "Trabajadores Adquiridos";
+    compraExitosa === true;
+    comprar.className += " noMostrar";
 }
 
 //Con esta función incorporo la de agregarTrabajador de la línea 51 y además busco al que compré, lo quito de disponible y resto su precio.
 function comprarTrabajador(id){
-    agregandoTrabajador(id - 1);
+    const nuevoTrabajador = trabajadoresDisponibles.find(el => el.id === id); // Para elegir trabajador de disponibles y cambiarlo
+    if (trabajadoresAdquiridos.some(el => el.id === id)) {
+        nuevoTrabajador.disponible = false; // aquí cambia disponible a falso.
+        mostrarTrabajadores();
+    } else {
+        agregandoTrabajador(id - 1);
+        const nuevoAdquirido = trabajadoresAdquiridos.find(el => el.id === id);
+        const precio = nuevoAdquirido.precio;
+        datosJugador.cajaRegistradora -= precio;
+        generarInterfaz();
+    }
 }
 
 // Con esta función muestro las Card donde presento a los trabajadores disponibles.
@@ -101,71 +148,34 @@ function mostrarTrabajadores() {
     })
 }
 
+const avisos = document.getElementById("avisos");
 
+function venderSlurm(){
+    compraExitosa = false;
+    comprar.className = "comprar";
+    if (trabajadoresAdquiridos.length == 0){
+        avisos.innerText += " No tienes trabajadores. Te recomiendo comprar, de lo contrario no tendras ventas en esta ronda";
+    }else{
+        avisos.innerText = "Nada nuevo, sin avisos por ahora";
+        trabajadoresAdquiridos.forEach(el => {
+            el.cantidadRonda = 0;
+            el.ventaRonda = 0;
+            el.cantidadRonda = parseInt(((Math.random()*10)+1) * el.productividad);
+            el.ventaRonda = (el.cantidadRonda * 5000);
+        });
+        const dineroGenerado = trabajadoresAdquiridos.map((el) => el.ventaRonda);
+        console.log(dineroGenerado);
+        const totalDinero = dineroGenerado.reduce((acumulador,elemento) => acumulador + elemento, 0);
+        console.log(totalDinero);
 
-function sueldoTrabajador() {
-    let sueldo;
-    let indicador;
-    indicador = trabajadoresAdquiridos.length;
-    sueldo = trabajadoresAdquiridos[indicador-1].precio;
-    datosJugador.cajaRegistradora = parseInt(datosJugador.cajaRegistradora-sueldo);
-}
-
-function elegirTrabajador(opcion){
-    switch (opcion) { 
-        case 1:
-            if (trabajadoresAdquiridos.includes(zoidberg)) {
-                alert("Lo siento, ya tienes este trabajador, por favor prueba con otro");
-            } else {
-                agregandoTrabajador(0);
-                sueldoTrabajador();
-            }
-            break;
-        case 2:
-            if (trabajadoresAdquiridos.includes(bender)) {
-                alert("Lo siento, ya tienes este trabajador, por favor prueba con otro");
-            } else {
-                agregandoTrabajador(1);
-                sueldoTrabajador();
-            }
-            break;
-        case 3:
-            if (trabajadoresAdquiridos.includes(fry)) {
-                alert("Lo siento, ya tienes este trabajador, por favor prueba con otro");
-            } else {
-                agregandoTrabajador(2);
-                sueldoTrabajador();
-            }
-            break;
-        case 4:
-            if (trabajadoresAdquiridos.includes(amy)) {
-                alert("Lo siento, ya tienes este trabajador, por favor prueba con otro");
-            } else {
-                agregandoTrabajador(3);
-                sueldoTrabajador();
-            }
-            break;                           
-        case 5:
-            if (trabajadoresAdquiridos.includes(hermes)) {
-                alert("Lo siento, ya tienes este trabajador, por favor prueba con otro");
-            } else {
-                agregandoTrabajador(4);
-                sueldoTrabajador();
-            }
-            break;    
-        case 6:
-            if (trabajadoresAdquiridos.includes(leela)) {
-                alert("Lo siento, ya tienes este trabajador, por favor prueba con otro");
-            } else {
-                agregandoTrabajador(5);
-                sueldoTrabajador();
-            }
-            break;                       
-        default:
-                alert("Lo siento, esa opción no es válida, por favor intenta nuevamente");
-        break;
+        const cantidadGenerada = trabajadoresAdquiridos.map((el) => el.cantidadRonda);
+        console.log(cantidadGenerada);
+        const totalCantidad = cantidadGenerada.reduce((acumulador,elemento) => acumulador + elemento, 0);
+        console.log(totalCantidad);
     }
 }
+
+/*
 
 function ventaTrabajadores(){
     for (let i = 0; i < trabajadoresAdquiridos.length; i++) {
@@ -175,3 +185,4 @@ function ventaTrabajadores(){
         alert("Trabajador "+ trabajadoresAdquiridos[i].nombre + " Vendió "+trabajadoresAdquiridos[i].cantidadRonda +" Slurms generando un total de $" + trabajadoresAdquiridos[i].ventaRonda);
         };
 }
+*/

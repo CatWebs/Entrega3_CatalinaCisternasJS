@@ -21,6 +21,7 @@ ________________________________________________________________________________
 */
 
 
+
 //  CONOCIENDO AL JUGADOR
 const nombreJugador = document.getElementById("nombreJugador");
 nombreJugador.value = "Jugador";
@@ -35,6 +36,13 @@ function guardarNombre () {
         nombreJugador.value = nombreJugador.value;
     }
 };
+//  DATOS DEL JUGADOR E INTERFAZ DEL JUEGO
+
+const iniciarJuego = document.getElementById("iniciarJuego");
+iniciarJuego.addEventListener("click", generarInterfaz);
+
+//  BOTONES DE INTERFAZ
+
 
 //  MOSTRANDO TRABAJADORES EN EL HTML HACIENDO CLICK EN "COMPRAR TRABAJADOR"
 const trabajadoresContainer = document.getElementById("trabajadores");
@@ -45,7 +53,6 @@ comprar.addEventListener("click", mostrarTrabajadores);
 //  DISEÑANDO Y CREANDO FUNCIONALIDAD EN ÁREA DE INTERFAZ
 
 const misTrabajadoresContainer = document.getElementById("misTrabajadores");
-
 const tituloMisTrabajadores = document.createElement("h4");
 tituloMisTrabajadores.className = "text-center";
 tituloMisTrabajadores.id = "tituloMisTrabajadores";
@@ -53,11 +60,10 @@ tituloMisTrabajadores.innerText = "No tienes trabajadores";
 misTrabajadoresContainer.appendChild(tituloMisTrabajadores);
 
 
+//  VENTA DE SLURM
 
-
-
-const interfazHTML = document.getElementById("interfaz");
-const botonComprarTrabajador = document.getElementsByClassName("comprar-boton");
+const vender = document.getElementById("vender");
+vender.addEventListener("click", venderSlurm);
 
 
 

@@ -39,29 +39,30 @@
                     </div> 
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 datosJugador">
-                        <p>Ronda</p>
+                    <div class="col-sm-12 datosJugador" id="datosJugador">
+                        <!--<p>Ronda</p>
                         <p>Caja registradora</p>
                         <p>Slurm Vendida</p>
-                        <p>Deuda Inversión</p>
+                        <p>Deuda Inversión</p>-->
                     </div>
                 </div>
                 <div class="container botonesPrincipales">
-                    <button id="iniciarJuego"><i class="icono"><img src="./media/futurama-slurms-mackenzie-pack (3).png"></i>Iniciar Juego</button> 
+                    <button id="iniciarJuego"><i class="icono"><img src="./media/futurama-slurms-mackenzie-pack (3).png"></i>Iniciar Juego</button>
                     <button id="finalizarJuego"><i class="icono"><img src="./media/arma.png"></i>Reiniciar Juego</button>
                 </div> 
             </section>
-            <section id="interfaz" class="container">
+            <section id="interfaz" class="container ocultarInterfaz">
                     <div class="ronda row">
-                        <div class="col-sm-6">
-                            <p>RONDA: 1</p>
+                        <div class="col-sm-6 datosRonda">
+                            <!--<p>RONDA: 1</p>
                             <p>Caja Registradora: $50000</p>
                             <p>Slurm Vendida: $50000</p>
-                            <p>Deuda Inversión: $50000</p>
+                            <p>Deuda Inversión: $50000</p>-->
                             <div class="container botonesSecundarios">
-                                <button id="comprar"><i class="icono"><img src="./media/finanzas.png"></i>Comprar Trabajador</button> 
+                                <button id="comprar" class="comprar"><i class="icono"><img src="./media/finanzas.png"></i>Comprar Trabajador</button>
                                 <button id="vender"><i class="icono"><img src="./media/cajero-automatico.png"></i>Vender Slurm</button>
-                            </div> 
+                            </div>
+                            <p class="text-center" id="avisos">Avisos: </p> 
                         </div>
                         <div class="col-sm-6" id="misTrabajadores">
                             <!--<p id="tituloMisTrabajadores" class="text-center">TRABAJADORES ADQUIRIDOS</p>

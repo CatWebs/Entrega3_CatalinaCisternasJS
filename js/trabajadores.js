@@ -1,4 +1,4 @@
-const trabajadoresAdquiridos = [];
+
 
 const trabajadoresDisponibles = [
     {
