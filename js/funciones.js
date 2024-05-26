@@ -55,11 +55,24 @@ function generarInterfaz(){
     container.appendChild(slurm);
     container.appendChild(dinero);
     container.appendChild(deuda);
-
     //  Interfaz
     const interfaz = document.getElementById("interfaz");
     interfaz.className = "container";
     // En la interfaz lo que hago es quitarle la clase que trae por defecto : "ocultarInterfaz". Así ahora puedo verla.
+}
+
+function actualizarInterfazDelJuego(){
+    const container = document.getElementById("datosRonda");
+    const titulo = document.createElement("h4");
+    titulo.className = "text-center";
+    titulo.innerText = `Datos Ronda ${ronda}`;
+    const slurmRonda = document.createElement("p");
+    slurmRonda.innerText = `Slurm Vendida: ${ventaRonda.slurmTotalRonda} unidades`;
+    const dineroRonda = document.createElement("p");
+    dineroRonda.innerText = `Caja Registradora: $${ventaRonda.ventaTotalRonda}`;
+    container.appendChild(titulo);
+    container.appendChild(slurmRonda);
+    container.appendChild(dineroRonda);
 }
 
 // En esta función creo la mini card que muestra a los trabajadores adquiridos (con los que puedo jugar)
@@ -200,6 +213,8 @@ function venderSlurm(){
     
             ventaRonda.slurmTotalRonda = totalCantidad;
             ventaRonda.ventaTotalRonda = totalDinero;
+            
+            actualizarInterfazDelJuego()
         }
         datosJugador.cajaRegistradora += ventaRonda.ventaTotalRonda;
         datosJugador.slurmVendida += ventaRonda.slurmTotalRonda;
