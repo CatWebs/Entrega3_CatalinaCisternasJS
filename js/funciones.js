@@ -16,9 +16,10 @@ function resetDatos(){
     ventaRonda.ventaTotalRonda = 0;
     ventaRonda.slurmTotalRonda = 0;
     ronda = 1;
-    compraExitosa = false;
     const container = document.getElementById("datosJugador");
     container.innerHTML = "";
+    const container2 = document.getElementById("misTrabajadores");
+    container2.innerHTML = "";
 }
 
 //  Variables globales para el uso de las diferentes funciones
@@ -97,7 +98,6 @@ function agregandoTrabajador(id) {
     trabajadoresAdquiridos.push(trabajadoresDisponibles[id]);
     //localStorage.setItem("trabajadoresAdquiridos", JSON.stringify(trabajadoresAdquiridos));
     trabajadoresContainer.innerHTML = "";
-    
     crearCardAdquirido();
     compraExitosa === true;
     comprar.className += " noMostrar";
@@ -170,42 +170,67 @@ function mostrarTrabajadores() {
 const avisos = document.getElementById("avisos");
 
 function venderSlurm(){
+    //Crear variable del boton para pasar a la siguiente ronda
+    const siguienteRonda = document.getElementById("siguienteRonda");
+    siguienteRonda.className = "siguienteRonda";
+    //Asignar clase comprar.className += " noMostrar"; y vender.className += " noMostrar";
+    comprar.className += " noMostrar";
+    vender.className += " noMostrar";
+    // Primero declaro compra exitosa false para que al salir, pueda volver a comprar
     compraExitosa = false;
-    comprar.className = "comprar";
-    if (trabajadoresAdquiridos.length == 0){
-        avisos.innerText += " No tienes trabajadores. Te recomiendo comprar, de lo contrario no tendras ventas en esta ronda";
-        ventaRonda.slurmTotalRonda = 0;
-        ventaRonda.ventaTotalRonda = 0;
-    }else{
-        avisos.innerText = "Nada nuevo, sin avisos por ahora";
-        trabajadoresAdquiridos.forEach(el => {
-            el.cantidadRonda = 0;
-            el.ventaRonda = 0;
-            el.cantidadRonda = parseInt(((Math.random()*10)+1) * el.productividad);
-            el.ventaRonda = (el.cantidadRonda * 5000);
-            crearCardAdquirido();
-        });
-        const dineroGenerado = trabajadoresAdquiridos.map((el) => el.ventaRonda);
-        console.log(dineroGenerado);
-        const totalDinero = dineroGenerado.reduce((acumulador,elemento) => acumulador + elemento, 0);
-        console.log(totalDinero);
-
-        const cantidadGenerada = trabajadoresAdquiridos.map((el) => el.cantidadRonda);
-        console.log(cantidadGenerada);
-        const totalCantidad = cantidadGenerada.reduce((acumulador,elemento) => acumulador + elemento, 0);
-        console.log(totalCantidad);
+    if (ronda <= 10) {
+        if (trabajadoresAdquiridos.length == 0){
+            avisos.innerText = "Avisos: No tienes trabajadores. Te recomiendo comprar, de lo contrario no tendras ventas en esta ronda";
+            ventaRonda.slurmTotalRonda = 0;
+            ventaRonda.ventaTotalRonda = 0;
+        }else{
+            avisos.innerText = "Nada nuevo, sin avisos por ahora";
+            trabajadoresAdquiridos.forEach(el => {
+                el.cantidadRonda = 0;
+                el.ventaRonda = 0;
+                el.cantidadRonda = parseInt(((Math.random()*10)+1) * el.productividad);
+                el.ventaRonda = (el.cantidadRonda * 5000);
+                crearCardAdquirido();
+            });
+            const dineroGenerado = trabajadoresAdquiridos.map((el) => el.ventaRonda);
+            const totalDinero = dineroGenerado.reduce((acumulador,elemento) => acumulador + elemento, 0);
+    
+            const cantidadGenerada = trabajadoresAdquiridos.map((el) => el.cantidadRonda);
+            const totalCantidad = cantidadGenerada.reduce((acumulador,elemento) => acumulador + elemento, 0);
+    
+            ventaRonda.slurmTotalRonda = totalCantidad;
+            ventaRonda.ventaTotalRonda = totalDinero;
+        }
+        datosJugador.cajaRegistradora += ventaRonda.ventaTotalRonda;
+        datosJugador.slurmVendida += ventaRonda.slurmTotalRonda;
+        generarInterfaz();
+        function otraRonda(){
+            comprar.className = "comprar";
+            vender.className = "vender";
+            siguienteRonda.className = "siguienteRonda noMostrar";
+        }
+        ronda ++;
+        siguienteRonda.addEventListener("click", otraRonda);
+        generarInterfaz();
+    } else {
+        const fin = document.getElementById("finDelJuego");
+        siguienteRonda.className = "siguienteRonda noMostrar";
+        comprar.className += " noMostrar";
+        vender.className += " noMostrar";
+        fin.className = "finDelJuego";
+        function finalizar(){
+            //FINAL DEL JUEGO - REVISIÓN DE COMPUTOS
+            ventaTotal = parseInt(datosJugador.cajaRegistradora - datosJugador.deudaInversion);
+            if (ventaTotal < 0) {
+                avisos.innerText = nombreJugador.value +", lamento informarte que has perdido. Más suerte la próxima vez\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste debiendo $"+ventaTotal;
+            } else if (ventaTotal == 0) {
+                avisos.innerText = nombreJugador.value +" Has perdido! No generaste dinero.\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste con $"+ventaTotal;
+            } else {
+                nombreJugador.value.toUpperCase;
+                avisos.innerText = "FELICIDADES "+nombreJugador.value+"! Eres el ganador. Ahora puedes llevarte una Robotzuela y 2 barriles de Slurm!\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto tu ganancia es de $"+ventaTotal;
+            } 
+        }
+        fin.addEventListener("click", finalizar);
+        console.log(ronda);
     }
-    ronda ++;
 }
-
-/*
-
-function ventaTrabajadores(){
-    for (let i = 0; i < trabajadoresAdquiridos.length; i++) {
-        let productividad = trabajadoresAdquiridos[i].productividad;
-        trabajadoresAdquiridos[i].cantidadRonda = parseInt(((Math.random()*10)+1) * productividad);
-        trabajadoresAdquiridos[i].ventaRonda = trabajadoresAdquiridos[i].cantidadRonda * 5000;
-        alert("Trabajador "+ trabajadoresAdquiridos[i].nombre + " Vendió "+trabajadoresAdquiridos[i].cantidadRonda +" Slurms generando un total de $" + trabajadoresAdquiridos[i].ventaRonda);
-        };
-}
-*/

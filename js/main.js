@@ -40,7 +40,6 @@ iniciarJuego.onclick = () => comenzar(true);
 avisos.innerText = "Avisos: Puedes comprar una vez, sólo antes de iniciar la ronda";
 const reiniciarJuego = document.getElementById("finalizarJuego");
 reiniciarJuego.onclick = () => comenzar(false);
-
 //  CONDICION INICIAL
 function comenzar(parametro){
     if (!parametro) {
@@ -95,7 +94,7 @@ vender.addEventListener("click", venderSlurm);
 
 
 /*
-
+ANTIGUO
 console.log(nombreJugador.value);
 // INICIO DEL JUEGO
 iniciar = confirm(reglas + "\n\nEstas listo?");

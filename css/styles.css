@@ -112,10 +112,22 @@ h1{
 
 #comprar{
     background-color: #f5a496;
+    width: 400px;
+}
+
+#siguienteRonda{
+    background-color: #96aff5;
+    width: 400px;
 }
 
 #vender{
     background-color: #d1f596;
+    width: 400px;
+}
+
+#finDelJuego{
+    background-color: #f18cfa;
+    width: 400px;
 }
 
 .icono{
