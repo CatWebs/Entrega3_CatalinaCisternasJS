@@ -19,9 +19,6 @@ y capturamos los eventos del usuario sobre inputs y botones para las entradas.
 
 _________________________________________________________________________________
 */
-
-
-
 //  CONOCIENDO AL JUGADOR
 const nombreJugador = document.getElementById("nombreJugador");
 nombreJugador.value = "Jugador";
@@ -39,31 +36,44 @@ function guardarNombre () {
 //  DATOS DEL JUGADOR E INTERFAZ DEL JUEGO
 
 const iniciarJuego = document.getElementById("iniciarJuego");
-iniciarJuego.addEventListener("click", generarInterfaz);
+iniciarJuego.onclick = () => comenzar(true);
+avisos.innerText = "Avisos: Puedes comprar una vez, sólo antes de iniciar la ronda";
+const reiniciarJuego = document.getElementById("finalizarJuego");
+reiniciarJuego.onclick = () => comenzar(false);
 
-//  BOTONES DE INTERFAZ
-
+//  CONDICION INICIAL
+function comenzar(parametro){
+    if (!parametro) {
+        resetDatos();
+    } else {
+        generarInterfaz();
+    }
+}
 
 //  MOSTRANDO TRABAJADORES EN EL HTML HACIENDO CLICK EN "COMPRAR TRABAJADOR"
 const trabajadoresContainer = document.getElementById("trabajadores");
-const comprar = document.getElementById("comprar");
+const comprar = document.getElementById("comprar"); //Esto es llamado en otras funciones
 comprar.addEventListener("click", mostrarTrabajadores);
 
 
 //  DISEÑANDO Y CREANDO FUNCIONALIDAD EN ÁREA DE INTERFAZ
 
 const misTrabajadoresContainer = document.getElementById("misTrabajadores");
-const tituloMisTrabajadores = document.createElement("h4");
+let tituloMisTrabajadores = document.createElement("h4");
 tituloMisTrabajadores.className = "text-center";
 tituloMisTrabajadores.id = "tituloMisTrabajadores";
 tituloMisTrabajadores.innerText = "No tienes trabajadores";
 misTrabajadoresContainer.appendChild(tituloMisTrabajadores);
+    
 
 
 //  VENTA DE SLURM
 
 const vender = document.getElementById("vender");
 vender.addEventListener("click", venderSlurm);
+
+
+
 
 
 

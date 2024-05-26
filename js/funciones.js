@@ -1,11 +1,27 @@
 //  VARIABLES PRINCIPALES
-let trabajadoresAdquiridos;
-if(localStorage.getItem("trabajadoresAdquiridos")){
-    trabajadoresAdquiridos = JSON.parse(localStorage.getItem("trabajadoresAdquiridos"));
-}else{
-    trabajadoresAdquiridos = [];
+// let trabajadoresAdquiridos;
+// if(localStorage.getItem("trabajadoresAdquiridos")){
+//     trabajadoresAdquiridos = JSON.parse(localStorage.getItem("trabajadoresAdquiridos"));
+// }else{
+//     trabajadoresAdquiridos = [];
+// }
+let trabajadoresAdquiridos = [];
+
+//  Función para limpiar los datos del juego
+function resetDatos(){
+    trabajadoresAdquiridos= [];
+    datosJugador.cajaRegistradora = 3000;
+    datosJugador.slurmVendida = 0;
+    datosJugador.deudaInversion = 500000;
+    ventaRonda.ventaTotalRonda = 0;
+    ventaRonda.slurmTotalRonda = 0;
+    ronda = 1;
+    compraExitosa = false;
+    const container = document.getElementById("datosJugador");
+    container.innerHTML = "";
 }
 
+//  Variables globales para el uso de las diferentes funciones
 const datosJugador = {
     cajaRegistradora: 3000,
     slurmVendida: 0,
@@ -46,40 +62,43 @@ function generarInterfaz(){
 }
 
 // En esta función creo la mini card que muestra a los trabajadores adquiridos (con los que puedo jugar)
-function crearCardAdquirido(trabajador){
+function crearCardAdquirido(){
     const container = document.getElementById("misTrabajadores");
-    const card = document.createElement("div");
-    card.className = "cardAdquiridos";
-    
-    const imagen = document.createElement("img");
-    const srcComponente = trabajador + 1;
-    imagen.src = `./media/${srcComponente}.png`;
+    container.innerHTML = "";
+    const misTrabajadoresContainer = document.getElementById("misTrabajadores");
+    tituloMisTrabajadores.innerText = "Trabajadores Adquiridos";
+    misTrabajadoresContainer.appendChild(tituloMisTrabajadores);
+    trabajadoresAdquiridos.forEach(el =>{
+        const card = document.createElement("div");
+        card.className = "cardAdquiridos";
+        const srcComponente = el.id;
 
-    const slurm = document.createElement("p");
-    slurm.className = `slurm${srcComponente}`;
-    slurm.innerText = "Slurm Vendida: ";
-    
-    const dinero = document.createElement("p");
-    dinero.className = `dinero${srcComponente}`;
-    dinero.innerText = "Dinero generado esta ronda: ";
+        const imagen = document.createElement("img");
+        imagen.src = `./media/${srcComponente}.png`;
 
-    card.appendChild(imagen);
-    card.appendChild(slurm);
-    card.appendChild(dinero);
-    
-    
-    container.appendChild(card);
+        const slurm = document.createElement("p");
+        slurm.className = `slurm${srcComponente}`;
+        slurm.innerText = `Slurm Vendida: ${el.cantidadRonda} unidades`;
+        
+        const dinero = document.createElement("p");
+        dinero.className = `dinero${srcComponente}`;
+        dinero.innerText = `Dinero generado ronda ${ronda}: $${el.ventaRonda}`;
 
+        card.appendChild(imagen);
+        card.appendChild(slurm);
+        card.appendChild(dinero);
+        
+        container.appendChild(card);
+    });
 };
 
 // En esta función pusheo el nuevo trabajador y de paso le creo una card (La de la línea 26)
 function agregandoTrabajador(id) { 
     trabajadoresAdquiridos.push(trabajadoresDisponibles[id]);
-    localStorage.setItem("trabajadoresAdquiridos", JSON.stringify(trabajadoresAdquiridos));
-    crearCardAdquirido(id);
+    //localStorage.setItem("trabajadoresAdquiridos", JSON.stringify(trabajadoresAdquiridos));
     trabajadoresContainer.innerHTML = "";
-    let titulo = document.getElementById("tituloMisTrabajadores");
-    titulo.innerText = "Trabajadores Adquiridos";
+    
+    crearCardAdquirido();
     compraExitosa === true;
     comprar.className += " noMostrar";
 }
@@ -155,6 +174,8 @@ function venderSlurm(){
     comprar.className = "comprar";
     if (trabajadoresAdquiridos.length == 0){
         avisos.innerText += " No tienes trabajadores. Te recomiendo comprar, de lo contrario no tendras ventas en esta ronda";
+        ventaRonda.slurmTotalRonda = 0;
+        ventaRonda.ventaTotalRonda = 0;
     }else{
         avisos.innerText = "Nada nuevo, sin avisos por ahora";
         trabajadoresAdquiridos.forEach(el => {
@@ -162,6 +183,7 @@ function venderSlurm(){
             el.ventaRonda = 0;
             el.cantidadRonda = parseInt(((Math.random()*10)+1) * el.productividad);
             el.ventaRonda = (el.cantidadRonda * 5000);
+            crearCardAdquirido();
         });
         const dineroGenerado = trabajadoresAdquiridos.map((el) => el.ventaRonda);
         console.log(dineroGenerado);
@@ -173,6 +195,7 @@ function venderSlurm(){
         const totalCantidad = cantidadGenerada.reduce((acumulador,elemento) => acumulador + elemento, 0);
         console.log(totalCantidad);
     }
+    ronda ++;
 }
 
 /*

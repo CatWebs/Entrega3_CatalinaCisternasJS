@@ -1,5 +1,3 @@
-
-
 const trabajadoresDisponibles = [
     {
         id: 1,
