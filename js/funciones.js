@@ -13,6 +13,46 @@
     fraseListadoPorId = arrayFraseListado.join("\n");
 };
 */
+
+// En esta función creo la mini card que muestra a los trabajadores adquiridos (con los que puedo jugar)
+function crearCardAdquirido(trabajador){
+    const container = document.getElementById("misTrabajadores");
+    const card = document.createElement("div");
+    card.className = "cardAdquiridos";
+    card.id = "cardAdquirido";
+    
+    const imagen = document.createElement("img");
+    const srcComponente = trabajador + 1;
+    imagen.src = `./media/${srcComponente}.png`;
+
+    const slurm = document.createElement("p");
+    slurm.innerText = "Slurm Vendida: ";
+    
+    const dinero = document.createElement("p");
+    dinero.innerText = "Dinero generado esta ronda: ";
+
+    card.appendChild(imagen);
+    card.appendChild(slurm);
+    card.appendChild(dinero);
+    container.appendChild(card);
+
+};
+
+// En esta función pusheo el nuevo trabajador y de paso le creo una card (La de la línea 26)
+function agregandoTrabajador(id) { 
+    trabajadoresAdquiridos.push(trabajadoresDisponibles[id]);
+    console.log(trabajadoresAdquiridos);
+    crearCardAdquirido(id);
+    let titulo = document.getElementById("tituloMisTrabajadores");
+    titulo.innerText = "Trabajadores Adquiridos";
+}
+
+//Con esta función incorporo la de agregarTrabajador de la línea 51 y además busco al que compré, lo quito de disponible y resto su precio.
+function comprarTrabajador(id){
+    agregandoTrabajador(id - 1);
+}
+
+// Con esta función muestro las Card donde presento a los trabajadores disponibles.
 function mostrarTrabajadores() {
     trabajadoresContainer.innerHTML = "";
     trabajadoresDisponibles.forEach(el => {
@@ -48,6 +88,7 @@ function mostrarTrabajadores() {
             comprar.innerText = "Ya lo tienes";
         }else{
             comprar.className = "btn comprar-boton";
+            comprar.onclick = () => comprarTrabajador(el.id);
         }
     
         card.appendChild(titulo);
@@ -60,9 +101,7 @@ function mostrarTrabajadores() {
     })
 }
 
-const agregandoTrabajador = (u) => {
-    trabajadoresAdquiridos.push(trabajadoresDisponibles[u]);
-}
+
 
 function sueldoTrabajador() {
     let sueldo;

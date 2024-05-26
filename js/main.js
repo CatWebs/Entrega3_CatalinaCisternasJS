@@ -1,6 +1,4 @@
-/*
-
-TERCERA PREENTREGA
+/*TERCERA PREENTREGA
 
 MODIFICAR EL DOM: Ampliar y refina el flujo de trabajo del script en términos de captura de eventos,
 procesamiento del simulador y notificación de resultados en forma de slaidas por HTML
@@ -46,8 +44,20 @@ comprar.addEventListener("click", mostrarTrabajadores);
 
 //  DISEÑANDO Y CREANDO FUNCIONALIDAD EN ÁREA DE INTERFAZ
 
+const misTrabajadoresContainer = document.getElementById("misTrabajadores");
+
+const tituloMisTrabajadores = document.createElement("h4");
+tituloMisTrabajadores.className = "text-center";
+tituloMisTrabajadores.id = "tituloMisTrabajadores";
+tituloMisTrabajadores.innerText = "No tienes trabajadores";
+misTrabajadoresContainer.appendChild(tituloMisTrabajadores);
+
+
+
+
+
 const interfazHTML = document.getElementById("interfaz");
-const comprarTrabajador = document.getElementsByClassName("comprar-boton");
+const botonComprarTrabajador = document.getElementsByClassName("comprar-boton");
 
 
 
