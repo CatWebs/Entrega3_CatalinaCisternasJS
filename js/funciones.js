@@ -23,7 +23,7 @@ function crearCardAdquirido(){
             
             const dinero = document.createElement("p");
             dinero.className = `dinero${srcComponente}`;
-            dinero.innerText = `Dinero generado ronda ${ronda-1}: $${el.ventaRonda}`;
+            dinero.innerText = `Dinero generado esta ronda: $${el.ventaRonda}`;
 
             card.appendChild(imagen);
             card.appendChild(slurm);
@@ -32,7 +32,6 @@ function crearCardAdquirido(){
             misTrabajadoresContainer.appendChild(card);
         });
     }
-    console.log(ronda);
 };
 
 // Con esta función muestro las Card donde presento a los trabajadores disponibles.
@@ -125,6 +124,7 @@ const textoBoton2 = document.getElementById("textoBoton2");
 const boton3 = document.getElementById("boton3");
 const textoBoton3 = document.getElementById("textoBoton3");
 
+const rondaActual = document.getElementById("rondaActual");
 const rondaHTML = document.getElementById("ronda");
 const cajaRegistradoraHTML = document.getElementById("cajaRegistradora");
 const cantidadVendidaHTML = document.getElementById("cantidadVendida");
@@ -134,7 +134,12 @@ iniciarJuego.onclick = iniciar;
 reiniciarJuego.onclick = reiniciar;
 
 function actualizarDatos(){
-    rondaHTML.innerText = ronda;
+    rondaActual.innerText = ronda-1;
+    if (ronda == 11){
+        rondaHTML.innerText = "Fin";
+    }else{
+        rondaHTML.innerText = ronda;
+    }
     cajaRegistradoraHTML.innerText = datosJugador.cajaRegistradora;
     cantidadVendidaHTML.innerText = datosJugador.slurmVendida;
     deudaHTML.innerText = datosJugador.deudaInversion;
@@ -215,28 +220,34 @@ function venderSlurm(){
 
 
 function iniciarRonda(){
-    if (ronda == 10){
-        rondaHTML.innerText = "Fin";
-        boton1.className += " noMostrar";
-        boton2.className += " noMostrar";
-        // boton3.onclick = finalizar;
-    } else{
-        textoBoton1.innerText = "Siguiente Ronda";
+    if (ronda <= 10){
+        boton1.onclick = interfazInicial;
+        crearCardAdquirido();
+        juegoEnEjecucion = true;
         boton2.className += " noMostrar";
         if (trabajadoresAdquiridos.length == 0){
             avisos.innerText = "No generaste dinero en esta ronda. No tienes trabajadores";
         }else{
             avisos.innerText = "Las estadísticas de esta ronda las verás a continuación. Ya puedes pasar a la siguiente ronda";
         }
-        boton1.onclick = interfazInicial;
-        volverAComprar = true;
-        // crearCardAdquirido();
-        juegoEnEjecucion = true;
-        ronda ++;
-        crearCardAdquirido();
+        if (ronda ==10){
+            volverAComprar = false;
+            boton1.className += " noMostrar";
+            ronda = 11;
+        }else{
+            textoBoton1.innerText = "Siguiente Ronda";
+            ronda ++;
+            volverAComprar = true;
+        }
+    }else{
+        rondaHTML.innerText = "Fin";
+        boton1.className += " noMostrar";
+        boton2.className += " noMostrar";
+        avisos.innerText = "Has terminado la última ronda. Ve a finalizar para ver tus resultados "
     }
     venderSlurm();
     actualizarDatos();
+    console.log(ronda);
 };
 
 function reiniciar(){
@@ -251,7 +262,7 @@ function finalizar(){
     boton3.className += " noMostrar";
     ventaTotal = parseInt(datosJugador.cajaRegistradora - datosJugador.deudaInversion);
     if (ventaTotal < 0) {
-        avisos.innerText = nombreJugador.value +", lamento informarte que has perdido. Más suerte la próxima vez\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste debiendo $"+ventaTotal;
+        avisos.innerText = nombreJugador.value +", lamento informarte que has perdido. Más suerte la próxima vez\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto tu saldo negativo es de $"+ventaTotal;
     } else if (ventaTotal == 0) {
         avisos.innerText = nombreJugador.value +" Has perdido! No generaste dinero.\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste con $"+ventaTotal;
     } else {
@@ -260,16 +271,19 @@ function finalizar(){
     } 
 };
 
-//Con esta función incorporo la de agregarTrabajador de la línea 51 y además busco al que compré, lo quito de disponible y resto su precio.
 function comprarTrabajador(id){
-    trabajadoresAdquiridos.push(trabajadoresDisponibles[id -1]);
-    trabajadoresContainer.innerHTML = "";
-    const nuevoAdquirido = trabajadoresAdquiridos.find(el => el.id === id);
-    const precio = nuevoAdquirido.precio;
-    datosJugador.cajaRegistradora -= precio;
-    actualizarDatos();
-    avisos.innerText = `Has comprado a ${nuevoAdquirido.nombre}`;
-    crearCardAdquirido()
+    if (trabajadoresDisponibles[id-1].precio <= datosJugador.cajaRegistradora){
+        trabajadoresAdquiridos.push(trabajadoresDisponibles[id -1]);
+        trabajadoresContainer.innerHTML = "";
+        const nuevoAdquirido = trabajadoresAdquiridos.find(el => el.id === id);
+        const precio = nuevoAdquirido.precio;
+        datosJugador.cajaRegistradora -= precio;
+        actualizarDatos();
+        avisos.innerText = `Has comprado a ${nuevoAdquirido.nombre}`;
+        crearCardAdquirido()
+    }else{
+        avisos.innerText = `No te alcanza para este jugador, prueba con otro`;
+        mostrarTrabajadores();
+    }
 }
-
 
