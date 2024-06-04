@@ -19,6 +19,7 @@ y capturamos los eventos del usuario sobre inputs y botones para las entradas.
 
 _________________________________________________________________________________*/
 
+
 //  CONOCIENDO AL JUGADOR
 const nombreJugador = document.getElementById("nombreJugador");
 nombreJugador.value = "Jugador";

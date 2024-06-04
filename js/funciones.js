@@ -88,26 +88,63 @@ function mostrarTrabajadores() {
 let ronda;
 let datosJugador;
 let trabajadoresAdquiridos;
-let inicializador = true;
-let volverAComprar = true;
+let inicializador;
+let volverAComprar;
 let ventaTotal;
-const ventaRonda = {
-    ventaTotalRonda: 0,
-    slurmTotalRonda: 0,
-};
+let ventaRonda = {};
 
 
 function variablesIniciales() {
-    ronda = 1;
-    volverAComprar = true;
-    datosJugador = {
-        cajaRegistradora: 3000,
-        slurmVendida: 0,
-        deudaInversion: 500000
-    };
-    ventaRonda.ventaTotalRonda = 0;
-    ventaRonda.slurmTotalRonda = 0;
-    trabajadoresAdquiridos = [];
+    
+    // Bool inicializador
+    if (localStorage.getItem("inicializador")){
+        inicializador = JSON.parse(localStorage.getItem("inicializador"));
+    }else{
+        inicializador = true;
+    }
+
+    // Bool para volver a comprar
+    if (localStorage.getItem("volverAComprar")){
+        volverAComprar = JSON.parse(localStorage.getItem("volverAComprar"));
+    }else{
+        volverAComprar = true;
+    }
+
+
+    // Para los datos del jugador
+    if (localStorage.getItem("datosJugador")){
+        datosJugador = JSON.parse(localStorage.getItem("datosJugador"));
+    }else{
+        datosJugador = {
+            cajaRegistradora: 3000,
+            slurmVendida: 0,
+            deudaInversion: 500000
+        };
+    }
+
+    // Para los datos de venta de Ronda
+    if (localStorage.getItem("ventaRonda")){
+        ventaRonda = JSON.parse(localStorage.getItem("ventaRonda"));
+    }else{
+        ventaRonda = {
+            ventaTotalRonda: 0,
+            slurmTotalRonda: 0,
+        };
+    }
+
+    // Para las rondas
+    if (localStorage.getItem("ronda")){
+        ronda = JSON.parse(localStorage.getItem("ronda"));
+    }else{
+        ronda = 1;
+    }
+
+    // Para los trabajadores Adquiridos
+    if (localStorage.getItem("trabajadoresAdquiridos")){
+        trabajadoresAdquiridos = JSON.parse(localStorage.getItem("trabajadoresAdquiridos"));
+    }else{
+        trabajadoresAdquiridos = [];
+    }
 };
 
 const iniciarJuego = document.getElementById("iniciarJuego");
@@ -162,6 +199,7 @@ function interfazInicial(){
 };
 
 function iniciar(){
+    variablesIniciales();
     if (inicializador){
         inicializador = false;
         variablesIniciales();
@@ -216,6 +254,8 @@ function venderSlurm(){
 
     datosJugador.cajaRegistradora += ventaRonda.ventaTotalRonda;
     datosJugador.slurmVendida += ventaRonda.slurmTotalRonda;
+
+    localStorage.setItem("datosJugador", JSON.stringify(datosJugador));
 }
 
 
@@ -245,6 +285,7 @@ function iniciarRonda(){
         boton2.className += " noMostrar";
         avisos.innerText = "Has terminado la última ronda. Ve a finalizar para ver tus resultados "
     }
+    localStorage.setItem("ronda", JSON.stringify(ronda));
     venderSlurm();
     actualizarDatos();
     console.log(ronda);
@@ -252,6 +293,7 @@ function iniciarRonda(){
 
 function reiniciar(){
     inicializador = true;
+    localStorage.clear(); 
     iniciar()
 };
 
@@ -268,16 +310,21 @@ function finalizar(){
     } else {
         nombreJugador.value.toUpperCase;
         avisos.innerText = "FELICIDADES "+nombreJugador.value+"! Eres el ganador. Ahora puedes llevarte una Robotzuela y 2 barriles de Slurm!\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto tu ganancia es de $"+ventaTotal;
-    } 
+    }
+    localStorage.clear(); 
 };
 
 function comprarTrabajador(id){
     if (trabajadoresDisponibles[id-1].precio <= datosJugador.cajaRegistradora){
         trabajadoresAdquiridos.push(trabajadoresDisponibles[id -1]);
+
+        localStorage.setItem("trabajadoresAdquiridos", JSON.stringify(trabajadoresAdquiridos));
+
         trabajadoresContainer.innerHTML = "";
         const nuevoAdquirido = trabajadoresAdquiridos.find(el => el.id === id);
         const precio = nuevoAdquirido.precio;
         datosJugador.cajaRegistradora -= precio;
+        localStorage.setItem("datosJugador", JSON.stringify(datosJugador));
         actualizarDatos();
         avisos.innerText = `Has comprado a ${nuevoAdquirido.nombre}`;
         crearCardAdquirido()
@@ -286,4 +333,3 @@ function comprarTrabajador(id){
         mostrarTrabajadores();
     }
 }
-
