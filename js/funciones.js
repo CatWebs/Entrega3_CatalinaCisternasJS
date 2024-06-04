@@ -1,135 +1,39 @@
-//  VARIABLES PRINCIPALES
-// let trabajadoresAdquiridos;
-// if(localStorage.getItem("trabajadoresAdquiridos")){
-//     trabajadoresAdquiridos = JSON.parse(localStorage.getItem("trabajadoresAdquiridos"));
-// }else{
-//     trabajadoresAdquiridos = [];
-// }
-let trabajadoresAdquiridos = [];
+const trabajadoresContainer = document.getElementById("trabajadores");
+const misTrabajadoresContainer = document.getElementById("misTrabajadores");
+const tituloMisTrabajadores = document.getElementById("tituloMisTrabajadores");
 
-//  Función para limpiar los datos del juego
-function resetDatos(){
-    trabajadoresAdquiridos= [];
-    datosJugador.cajaRegistradora = 3000;
-    datosJugador.slurmVendida = 0;
-    datosJugador.deudaInversion = 500000;
-    ventaRonda.ventaTotalRonda = 0;
-    ventaRonda.slurmTotalRonda = 0;
-    ronda = 1;
-    const container = document.getElementById("datosJugador");
-    container.innerHTML = "";
-    const container2 = document.getElementById("misTrabajadores");
-    container2.innerHTML = "";
-}
-
-//  Variables globales para el uso de las diferentes funciones
-const datosJugador = {
-    cajaRegistradora: 3000,
-    slurmVendida: 0,
-    deudaInversion: 500000
-};
-
-const ventaRonda = {
-    ventaTotalRonda: 0,
-    slurmTotalRonda: 0,
-}
-
-let ronda = 1;
-let compraExitosa = false;
-
-// Actualizo los datos iniciales del jugador
-function generarInterfaz(){
-    //  Datos del Jugador
-    const container = document.getElementById("datosJugador");
-    container.innerHTML = "";
-
-    const rondaP = document.createElement("p");
-    rondaP.innerText = `Ronda Actual N°: ${ronda}`;
-    const slurm = document.createElement("p");
-    slurm.innerText = `Slurm Vendida: ${datosJugador.slurmVendida} unidades`;
-    const dinero = document.createElement("p");
-    dinero.innerText = `Caja Registradora: $${datosJugador.cajaRegistradora}`;
-    const deuda = document.createElement("p");
-    deuda.innerText = `Deuda Inversión: $${datosJugador.deudaInversion}`;
-    container.appendChild(rondaP);
-    container.appendChild(slurm);
-    container.appendChild(dinero);
-    container.appendChild(deuda);
-    //  Interfaz
-    const interfaz = document.getElementById("interfaz");
-    interfaz.className = "container";
-    // En la interfaz lo que hago es quitarle la clase que trae por defecto : "ocultarInterfaz". Así ahora puedo verla.
-}
-
-function actualizarInterfazDelJuego(){
-    const container = document.getElementById("datosRonda");
-    const titulo = document.createElement("h4");
-    titulo.className = "text-center";
-    titulo.innerText = `Datos Ronda ${ronda}`;
-    const slurmRonda = document.createElement("p");
-    slurmRonda.innerText = `Slurm Vendida: ${ventaRonda.slurmTotalRonda} unidades`;
-    const dineroRonda = document.createElement("p");
-    dineroRonda.innerText = `Caja Registradora: $${ventaRonda.ventaTotalRonda}`;
-    container.appendChild(titulo);
-    container.appendChild(slurmRonda);
-    container.appendChild(dineroRonda);
-}
-
-// En esta función creo la mini card que muestra a los trabajadores adquiridos (con los que puedo jugar)
 function crearCardAdquirido(){
-    const container = document.getElementById("misTrabajadores");
-    container.innerHTML = "";
-    const misTrabajadoresContainer = document.getElementById("misTrabajadores");
-    tituloMisTrabajadores.innerText = "Trabajadores Adquiridos";
-    misTrabajadoresContainer.appendChild(tituloMisTrabajadores);
-    trabajadoresAdquiridos.forEach(el =>{
-        const card = document.createElement("div");
-        card.className = "cardAdquiridos";
-        const srcComponente = el.id;
+    if (trabajadoresAdquiridos.length == 0){
+        misTrabajadoresContainer.innerHTML = "";
+        tituloMisTrabajadores.innerText = ""; 
+    }else{
+        misTrabajadoresContainer.innerHTML = "";
+        tituloMisTrabajadores.innerText = "Trabajadores Adquiridos";    
+        trabajadoresAdquiridos.forEach(el =>{
+            const card = document.createElement("div");
+            card.className = "cardAdquiridos";
+            const srcComponente = el.id;
 
-        const imagen = document.createElement("img");
-        imagen.src = `./media/${srcComponente}.png`;
+            const imagen = document.createElement("img");
+            imagen.src = `./media/${srcComponente}.png`;
 
-        const slurm = document.createElement("p");
-        slurm.className = `slurm${srcComponente}`;
-        slurm.innerText = `Slurm Vendida: ${el.cantidadRonda} unidades`;
-        
-        const dinero = document.createElement("p");
-        dinero.className = `dinero${srcComponente}`;
-        dinero.innerText = `Dinero generado ronda ${ronda}: $${el.ventaRonda}`;
+            const slurm = document.createElement("p");
+            slurm.className = `slurm${srcComponente}`;
+            slurm.innerText = `Slurm Vendida: ${el.cantidadRonda} unidades`;
+            
+            const dinero = document.createElement("p");
+            dinero.className = `dinero${srcComponente}`;
+            dinero.innerText = `Dinero generado ronda ${ronda-1}: $${el.ventaRonda}`;
 
-        card.appendChild(imagen);
-        card.appendChild(slurm);
-        card.appendChild(dinero);
-        
-        container.appendChild(card);
-    });
-};
-
-// En esta función pusheo el nuevo trabajador y de paso le creo una card (La de la línea 26)
-function agregandoTrabajador(id) { 
-    trabajadoresAdquiridos.push(trabajadoresDisponibles[id]);
-    //localStorage.setItem("trabajadoresAdquiridos", JSON.stringify(trabajadoresAdquiridos));
-    trabajadoresContainer.innerHTML = "";
-    crearCardAdquirido();
-    compraExitosa === true;
-    comprar.className += " noMostrar";
-}
-
-//Con esta función incorporo la de agregarTrabajador de la línea 51 y además busco al que compré, lo quito de disponible y resto su precio.
-function comprarTrabajador(id){
-    const nuevoTrabajador = trabajadoresDisponibles.find(el => el.id === id); // Para elegir trabajador de disponibles y cambiarlo
-    if (trabajadoresAdquiridos.some(el => el.id === id)) {
-        nuevoTrabajador.disponible = false; // aquí cambia disponible a falso.
-        mostrarTrabajadores();
-    } else {
-        agregandoTrabajador(id - 1);
-        const nuevoAdquirido = trabajadoresAdquiridos.find(el => el.id === id);
-        const precio = nuevoAdquirido.precio;
-        datosJugador.cajaRegistradora -= precio;
-        generarInterfaz();
+            card.appendChild(imagen);
+            card.appendChild(slurm);
+            card.appendChild(dinero);
+            
+            misTrabajadoresContainer.appendChild(card);
+        });
     }
-}
+    console.log(ronda);
+};
 
 // Con esta función muestro las Card donde presento a los trabajadores disponibles.
 function mostrarTrabajadores() {
@@ -160,16 +64,17 @@ function mostrarTrabajadores() {
         imagen.className = "card-img-bottom";
     
         const comprar = document.createElement("button");
+        comprar.className = `boton${el.id} btn comprar-boton`;
         comprar.innerText = "Comprar";
-    
-        if(!el.disponible){
+        
+        const identificador = el.id;
+        if (trabajadoresAdquiridos.some(el => el.id === identificador)){
             comprar.className = "btn no-disponible";
             comprar.innerText = "Ya lo tienes";
-        }else{
+        } else{
             comprar.className = "btn comprar-boton";
             comprar.onclick = () => comprarTrabajador(el.id);
         }
-    
         card.appendChild(titulo);
         card.appendChild(nombres);
         card.appendChild(precio);
@@ -177,75 +82,194 @@ function mostrarTrabajadores() {
         card.appendChild(imagen);
         card.appendChild(comprar);
         trabajadoresContainer.appendChild(card);
-    })
+    });
 }
 
+
+let ronda;
+let datosJugador;
+let trabajadoresAdquiridos;
+let inicializador = true;
+let volverAComprar = true;
+let ventaTotal;
+const ventaRonda = {
+    ventaTotalRonda: 0,
+    slurmTotalRonda: 0,
+};
+
+
+function variablesIniciales() {
+    ronda = 1;
+    volverAComprar = true;
+    datosJugador = {
+        cajaRegistradora: 3000,
+        slurmVendida: 0,
+        deudaInversion: 500000
+    };
+    ventaRonda.ventaTotalRonda = 0;
+    ventaRonda.slurmTotalRonda = 0;
+    trabajadoresAdquiridos = [];
+};
+
+const iniciarJuego = document.getElementById("iniciarJuego");
+iniciarJuego.onclick = iniciar;
+const reiniciarJuego = document.getElementById("reiniciarJuego");
+reiniciarJuego.onclick = reiniciar;
+const interfaz = document.getElementById("interfaz");
 const avisos = document.getElementById("avisos");
 
-function venderSlurm(){
-    //Crear variable del boton para pasar a la siguiente ronda
-    const siguienteRonda = document.getElementById("siguienteRonda");
-    siguienteRonda.className = "siguienteRonda";
-    //Asignar clase comprar.className += " noMostrar"; y vender.className += " noMostrar";
-    comprar.className += " noMostrar";
-    vender.className += " noMostrar";
-    // Primero declaro compra exitosa false para que al salir, pueda volver a comprar
-    compraExitosa = false;
-    if (ronda <= 10) {
-        if (trabajadoresAdquiridos.length == 0){
-            avisos.innerText = "Avisos: No tienes trabajadores. Te recomiendo comprar, de lo contrario no tendras ventas en esta ronda";
-            ventaRonda.slurmTotalRonda = 0;
-            ventaRonda.ventaTotalRonda = 0;
-        }else{
-            avisos.innerText = "Nada nuevo, sin avisos por ahora";
-            trabajadoresAdquiridos.forEach(el => {
-                el.cantidadRonda = 0;
-                el.ventaRonda = 0;
-                el.cantidadRonda = parseInt(((Math.random()*10)+1) * el.productividad);
-                el.ventaRonda = (el.cantidadRonda * 5000);
-                crearCardAdquirido();
-            });
-            const dineroGenerado = trabajadoresAdquiridos.map((el) => el.ventaRonda);
-            const totalDinero = dineroGenerado.reduce((acumulador,elemento) => acumulador + elemento, 0);
-    
-            const cantidadGenerada = trabajadoresAdquiridos.map((el) => el.cantidadRonda);
-            const totalCantidad = cantidadGenerada.reduce((acumulador,elemento) => acumulador + elemento, 0);
-    
-            ventaRonda.slurmTotalRonda = totalCantidad;
-            ventaRonda.ventaTotalRonda = totalDinero;
-            
-            actualizarInterfazDelJuego()
-        }
-        datosJugador.cajaRegistradora += ventaRonda.ventaTotalRonda;
-        datosJugador.slurmVendida += ventaRonda.slurmTotalRonda;
-        generarInterfaz();
-        function otraRonda(){
-            comprar.className = "comprar";
-            vender.className = "vender";
-            siguienteRonda.className = "siguienteRonda noMostrar";
-        }
-        ronda ++;
-        siguienteRonda.addEventListener("click", otraRonda);
-        generarInterfaz();
-    } else {
-        const fin = document.getElementById("finDelJuego");
-        siguienteRonda.className = "siguienteRonda noMostrar";
-        comprar.className += " noMostrar";
-        vender.className += " noMostrar";
-        fin.className = "finDelJuego";
-        function finalizar(){
-            //FINAL DEL JUEGO - REVISIÓN DE COMPUTOS
-            ventaTotal = parseInt(datosJugador.cajaRegistradora - datosJugador.deudaInversion);
-            if (ventaTotal < 0) {
-                avisos.innerText = nombreJugador.value +", lamento informarte que has perdido. Más suerte la próxima vez\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste debiendo $"+ventaTotal;
-            } else if (ventaTotal == 0) {
-                avisos.innerText = nombreJugador.value +" Has perdido! No generaste dinero.\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste con $"+ventaTotal;
-            } else {
-                nombreJugador.value.toUpperCase;
-                avisos.innerText = "FELICIDADES "+nombreJugador.value+"! Eres el ganador. Ahora puedes llevarte una Robotzuela y 2 barriles de Slurm!\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto tu ganancia es de $"+ventaTotal;
-            } 
-        }
-        fin.addEventListener("click", finalizar);
-        console.log(ronda);
+const boton1 = document.getElementById("boton1");
+const textoBoton1 = document.getElementById("textoBoton1");
+const boton2 = document.getElementById("boton2");
+const textoBoton2 = document.getElementById("textoBoton2");
+const boton3 = document.getElementById("boton3");
+const textoBoton3 = document.getElementById("textoBoton3");
+
+const rondaHTML = document.getElementById("ronda");
+const cajaRegistradoraHTML = document.getElementById("cajaRegistradora");
+const cantidadVendidaHTML = document.getElementById("cantidadVendida");
+const deudaHTML = document.getElementById("deuda");
+
+iniciarJuego.onclick = iniciar;
+reiniciarJuego.onclick = reiniciar;
+
+function actualizarDatos(){
+    rondaHTML.innerText = ronda;
+    cajaRegistradoraHTML.innerText = datosJugador.cajaRegistradora;
+    cantidadVendidaHTML.innerText = datosJugador.slurmVendida;
+    deudaHTML.innerText = datosJugador.deudaInversion;
+}
+
+function interfazInicial(){
+    boton1.className = "boton1 botonSecundario";
+    boton2.className = "boton2 botonSecundario";
+    boton3.className = "boton3 botonSecundario";
+    textoBoton1.innerText = "Comprar trabajador";
+    textoBoton2.innerText = "Iniciar Ronda";
+    textoBoton3.innerText = "Finalizar Juego";
+    avisos.innerText = "Has iniciado el juego de azar";
+    trabajadoresContainer.innerHTML = "";
+    misTrabajadoresContainer.innerHTML = "";
+    boton1.onclick = abrirTienda;
+    boton2.onclick = iniciarRonda;
+    boton3.onclick = finalizar;
+    crearCardAdquirido();
+};
+
+function iniciar(){
+    if (inicializador){
+        inicializador = false;
+        variablesIniciales();
+        interfaz.className = "interfaz";
+        interfazInicial();
+        actualizarDatos();
+    }else{
+        avisos.innerText = `Ha ocurrido un problema. Ya has iniciado. Si quieres volver a empezar presiona "Reiniciar Juego"`;
     }
 }
+
+function abrirTienda() {
+    textoBoton3.innerText = "Volver";
+    boton2.className += " noMostrar";
+    boton1.className += " noMostrar";
+    if (trabajadoresAdquiridos.length == 0){
+        avisos.innerText = "Avisos: No tienes trabajadores. Te recomiendo comprar, de lo contrario no tendras ventas en esta ronda";
+    }else{
+        avisos.innerText = "Elige el trabajador que desees comprar. Sino, puedes volver";
+    }
+    boton3.onclick = interfazInicial;
+    if (volverAComprar){
+        mostrarTrabajadores();
+        volverAComprar = false;
+    }else{
+        avisos.innerText = "Lo siento, ya compraste en esta ronda. Puedes probar en la siguiente";
+    }
+    
+};
+
+function venderSlurm(){
+    // Creo una card con los datos actualizados de venta de cada trabajador que tengo
+    trabajadoresAdquiridos.forEach(el => {
+        el.cantidadRonda = 0;
+        el.ventaRonda = 0;
+        el.cantidadRonda = parseInt(((Math.random()*10)+1) * el.productividad);
+        el.ventaRonda = (el.cantidadRonda * 5000);
+        crearCardAdquirido();
+    });
+    // Se genera la venta en dinero
+    const dineroGeneradoPorTrabajador = trabajadoresAdquiridos.map((el) => el.ventaRonda);
+    const totalDineroPorTrabajadores = dineroGeneradoPorTrabajador.reduce((acumulador,elemento) => acumulador + elemento, 0);
+
+    console.log(dineroGeneradoPorTrabajador);
+    console.log(totalDineroPorTrabajadores);
+    
+    const cantidadGeneradaPorTrabajador = trabajadoresAdquiridos.map((el) => el.cantidadRonda);
+    const totalCantidadPorTrabajadores = cantidadGeneradaPorTrabajador.reduce((acumulador,elemento) => acumulador + elemento, 0);
+
+    ventaRonda.slurmTotalRonda = totalCantidadPorTrabajadores;
+    ventaRonda.ventaTotalRonda = totalDineroPorTrabajadores;
+
+    datosJugador.cajaRegistradora += ventaRonda.ventaTotalRonda;
+    datosJugador.slurmVendida += ventaRonda.slurmTotalRonda;
+}
+
+
+function iniciarRonda(){
+    if (ronda == 10){
+        rondaHTML.innerText = "Fin";
+        boton1.className += " noMostrar";
+        boton2.className += " noMostrar";
+        // boton3.onclick = finalizar;
+    } else{
+        textoBoton1.innerText = "Siguiente Ronda";
+        boton2.className += " noMostrar";
+        if (trabajadoresAdquiridos.length == 0){
+            avisos.innerText = "No generaste dinero en esta ronda. No tienes trabajadores";
+        }else{
+            avisos.innerText = "Las estadísticas de esta ronda las verás a continuación. Ya puedes pasar a la siguiente ronda";
+        }
+        boton1.onclick = interfazInicial;
+        volverAComprar = true;
+        // crearCardAdquirido();
+        juegoEnEjecucion = true;
+        ronda ++;
+        crearCardAdquirido();
+    }
+    venderSlurm();
+    actualizarDatos();
+};
+
+function reiniciar(){
+    inicializador = true;
+    iniciar()
+};
+
+
+function finalizar(){
+    boton1.className += " noMostrar";
+    boton2.className += " noMostrar";
+    boton3.className += " noMostrar";
+    ventaTotal = parseInt(datosJugador.cajaRegistradora - datosJugador.deudaInversion);
+    if (ventaTotal < 0) {
+        avisos.innerText = nombreJugador.value +", lamento informarte que has perdido. Más suerte la próxima vez\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste debiendo $"+ventaTotal;
+    } else if (ventaTotal == 0) {
+        avisos.innerText = nombreJugador.value +" Has perdido! No generaste dinero.\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto quedaste con $"+ventaTotal;
+    } else {
+        nombreJugador.value.toUpperCase;
+        avisos.innerText = "FELICIDADES "+nombreJugador.value+"! Eres el ganador. Ahora puedes llevarte una Robotzuela y 2 barriles de Slurm!\nReuniste $"+datosJugador.cajaRegistradora+" pero le debes $500.000 al juego, por lo tanto tu ganancia es de $"+ventaTotal;
+    } 
+};
+
+//Con esta función incorporo la de agregarTrabajador de la línea 51 y además busco al que compré, lo quito de disponible y resto su precio.
+function comprarTrabajador(id){
+    trabajadoresAdquiridos.push(trabajadoresDisponibles[id -1]);
+    trabajadoresContainer.innerHTML = "";
+    const nuevoAdquirido = trabajadoresAdquiridos.find(el => el.id === id);
+    const precio = nuevoAdquirido.precio;
+    datosJugador.cajaRegistradora -= precio;
+    actualizarDatos();
+    avisos.innerText = `Has comprado a ${nuevoAdquirido.nombre}`;
+    crearCardAdquirido()
+}
+
+

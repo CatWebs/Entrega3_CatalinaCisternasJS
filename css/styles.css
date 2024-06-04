@@ -8,6 +8,10 @@ h1{
     font-size: 40px;
 }
 
+p,li,input,button{
+    font-size: 20px;
+}
+
 .bender{
     height: 250px;
 }
@@ -74,16 +78,6 @@ h1{
     margin-left: 20px;;
 }
 
-/*      SECCIÓN DE INTERFAZ     */
-
-#interfaz{
-    display: flex;
-    justify-content: space-around;
-    padding: 30px 0;
-    border: 2px solid orange;
-    border-radius: 15px;
-}
-
 .botonesPrincipales{
     display: flex;
     justify-content: space-around;
@@ -95,8 +89,26 @@ h1{
     background-color: #d1f596;
 }
 
-#finalizarJuego{
+#reiniciarJuego{
     background-color: #f5a496;
+}
+
+/*      SECCIÓN DE INTERFAZ     */
+
+#interfaz{
+    padding: 30px 0;
+    border: 2px solid orange;
+    border-radius: 15px;
+}
+
+.datosJugador{
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.datoJugador{
+    border-bottom: 1px solid grey;
+    padding: 10px 20px 2px;
 }
 
 .botonesSecundarios{
@@ -110,24 +122,26 @@ h1{
     visibility: hidden;
 }
 
-#comprar{
+.botonSecundario{
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px #000;
+}
+
+.boton1 {
     background-color: #f5a496;
-    width: 400px;
 }
 
-#siguienteRonda{
+.boton3{
     background-color: #96aff5;
-    width: 400px;
 }
 
-#vender{
+.boton2{
     background-color: #d1f596;
-    width: 400px;
 }
 
-#finDelJuego{
+.boton4{
     background-color: #f18cfa;
-    width: 400px;
 }
 
 .icono{
@@ -164,7 +178,21 @@ button:hover{
     box-shadow: 0 0 12px rgb(137, 253, 4);
 }
 
+#avisos{
+    background-color: #d1f596;
+    font-size: 25px;
+    border: 4px double #000;
+    padding: 12px;
+    border-radius: 15px;
+    width: 90%;
+    margin: 0 auto;
+}
+
 /*      SECCIÓN DE TRABAJADORES     */
+
+.tituloMisTrabajadores{
+    padding: 50px 0 15px;
+}
 
 .trabajadores{
     padding: 15px 0;

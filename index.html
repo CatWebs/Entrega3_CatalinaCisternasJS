@@ -21,7 +21,7 @@
                 <ul>
                     <li>Cada vaso de Slurm se vende en $5000</li>
                     <li>En cada ronda, tus trabajadores venderán una cantidad aleatoria de vasos de Slurm</li>
-                    <li>En algunas rondas podrás incorporar trabajadores (por un precio), y esto te ayudará a vender una mayor cantidad de Slurm</li>
+                    <li>Podrás comprar trabajadores una vez por ronda</li>
                 </ul>
                 <p>¿Cómo ganar? Una vez finalizadas las 10 rondas, a tu ganancia le descontamos los $500.000 del barril y vemos cuántos has vendido</p>
             </div>
@@ -39,74 +39,35 @@
                     </div> 
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 datosJugador" id="datosJugador">
-                        <!--<p>Ronda</p>
-                        <p>Caja registradora</p>
-                        <p>Slurm Vendida</p>
-                        <p>Deuda Inversión</p>-->
+                    <div class="container botonesPrincipales">
+                        <button id="iniciarJuego"><i class="icono"><img src="./media/futurama-slurms-mackenzie-pack (3).png"></i>Iniciar Juego</button>
+                        <button id="reiniciarJuego"><i class="icono"><img src="./media/arma.png"></i>Reiniciar Juego</button>
                     </div>
                 </div>
-                <div class="container botonesPrincipales">
-                    <button id="iniciarJuego"><i class="icono"><img src="./media/futurama-slurms-mackenzie-pack (3).png"></i>Iniciar Juego</button>
-                    <button id="finalizarJuego"><i class="icono"><img src="./media/arma.png"></i>Reiniciar Juego</button>
-                </div> 
             </section>
             <section id="interfaz" class="container ocultarInterfaz">
-                    <div class="ronda row">
-                        <div class="col-sm-6 datosRonda" id="datosRonda">
-                            <!--<p>RONDA: 1</p>
-                            <p>Caja Registradora: $50000</p>
-                            <p>Slurm Vendida: $50000</p>
-                            <p>Deuda Inversión: $50000</p>-->
-                            <div class="container botonesSecundarios">
-                                <button id="comprar" class="comprar"><i class="icono"><img src="./media/finanzas.png"></i>Comprar Trabajador</button>
-                                <button id="vender" class="vender"><i class="icono"><img src="./media/cajero-automatico.png"></i>Vender Slurm</button>
-                                <button id="siguienteRonda" class="siguienteRonda noMostrar"><i class="icono"><img src="./media/futurama-slurms-mackenzie-pack (1).png"></i>Siguiente Ronda</button>
-                                <button id="finDelJuego" class="finDelJuego  noMostrar"><i class="icono"><img src="./media/bolsa-de-dinero.png"></i>Finalizar Juego</button>
-                            </div>
-                            <p class="text-center" id="avisos">Avisos: </p> 
-                        </div>
-                        <div class="col-sm-6" id="misTrabajadores">
-                            <!--<p id="tituloMisTrabajadores" class="text-center">TRABAJADORES ADQUIRIDOS</p>
-                            <div class="cardAdquiridos">
-                                <img src="./media/1.png">
-                                <p>Slurm Vendida: 0</p>
-                                <p>Dinero generado esta ronda: $1000</p>
-                            </div>
-                            <div class="cardAdquiridos">
-                                <img src="./media/1.png">
-                                <p>Slurm Vendida: 0</p>
-                                <p>Dinero generado esta ronda: $1000</p>
-                            </div>
-                            <div class="cardAdquiridos">
-                                <img src="./media/1.png">
-                                <p>Slurm Vendida: 0</p>
-                                <p>Dinero generado esta ronda: $1000</p>
-                            </div>
-                            <div class="cardAdquiridos">
-                                <img src="./media/1.png">
-                                <p>Slurm Vendida: 0</p>
-                                <p>Dinero generado esta ronda: $1000</p>
-                            </div>
-                            <div class="cardAdquiridos">
-                                <img src="./media/1.png">
-                                <p>Slurm Vendida: 0</p>
-                                <p>Dinero generado esta ronda: $1000</p>
-                            </div>
-                            <div class="cardAdquiridos">
-                                <img src="./media/1.png">
-                                <p>Slurm Vendida: 0</p>
-                                <p>Dinero generado esta ronda: $1000</p>
-                            </div>
-                            <div class="cardAdquiridos">
-                                <img src="./media/1.png">
-                                <p>Slurm Vendida: 0</p>
-                                <p>Dinero generado esta ronda: $1000</p>
-                            </div>-->
-                        </div>
-                    </div>
+                <div class="container datosJugador" id="datosJugador">
+                    <span class="datoJugador">Ronda por iniciar: <strong><span id="ronda">0</span></strong></span>
+                    <span class="datoJugador">Caja Registradora: <strong><span id="cajaRegistradora">3000</span></strong></span>
+                    <span class="datoJugador">Cantidad Vendida: <strong><span id="cantidadVendida">0</span></strong></span>
+                    <span class="datoJugador">Deuda: <strong><span id="deuda">500000</span></strong></span>
+                </div>
+                <div class="container botonesSecundarios">
+                    <button id="boton1" class="boton1 botonSecundario"><i class="icono"><img src="./media/finanzas.png"></i><span id="textoBoton1"></span></button>
+                    <button id="boton2" class="boton2 botonSecundario"><i class="icono"><img src="./media/cajero-automatico.png"></i><span id="textoBoton2"></span></button>
+                    <button id="boton3" class="boton3 botonSecundario"><i class="icono"><img src="./media/futurama-slurms-mackenzie-pack (1).png"></i><span id="textoBoton3"></span></button>
+                </div>
+                <div class="container avisos">
+                    <p class="text-center" id="avisos"></p> 
+                </div>
+                <div><h4 class="text-center tituloMisTrabajadores" id="tituloMisTrabajadores"></h4></div>
+                <div class="row">
+                    <div id="misTrabajadores"></div>
+                </div>
+                <div class="trabajadores container" id="trabajadores">
+                </div>
             </section>
-            <div class="trabajadores container" id="trabajadores">
+            <div class="ronda container datosRonda" id="datosRonda">
             </div>
         </div>
     </main>
